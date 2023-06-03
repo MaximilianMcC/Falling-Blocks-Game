@@ -22,6 +22,14 @@ class Game
 		Clock deltaTimeClock = new Clock();
 
 
+		// 60% down the screen
+		float groundPosition = (Window.Size.Y * 60) / 100;
+
+
+
+		// Make the player
+		Player player = new Player(this, groundPosition);
+
 
 		while (Window.IsOpen)
 		{
@@ -31,10 +39,11 @@ class Game
 			// Calculate delta time
 			DeltaTime = deltaTimeClock.Restart().AsSeconds();
 
-			
+			// Update the player
+			player.Update();
 
-			// Spawn in a new obstacle every 3 seconds
-			float spawnDelay = 3;
+			// Spawn in a new obstacle every 2.5 seconds
+			float spawnDelay = 2.5f;
 			if (gameClock.ElapsedTime.AsSeconds() >= spawnDelay)
 			{
 				// Create a new obstacle
@@ -45,24 +54,25 @@ class Game
 			}
 
 
-
 			// Update all of the obstacles
 			for (int i = 0; i < Obstacles.Count; i++)
 			{
 				Obstacles[i].Update();
 			}
 
-			
 
 			// Clear the Window
 			Window.Clear(Color.Magenta);
 
+			// Draw the player
+			player.Render();
 
 			// Draw all of the obstacles
 			for (int i = 0; i < Obstacles.Count; i++)
 			{
 				Obstacles[i].Render();
 			}
+
 
 			// Display the contents of the Window
 			Window.Display();
