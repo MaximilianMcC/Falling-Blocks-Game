@@ -4,6 +4,7 @@ using SFML.Window;
 
 class Obstacle
 {
+    public bool Destroyed { get; private set; }
     private Game game;
     private float speed;
     private Vector2f Position;
@@ -37,14 +38,23 @@ class Obstacle
         Vector2f movement = new Vector2f(0, speed * game.DeltaTime);
         Vector2f newPosition = Position + movement;
 
+        // Check for if the obstacle is off the screen, then destroy it
+        if (Position.Y > game.Window.Size.Y) Destroy();
+
         // Move the player
         Position = newPosition;
         sprite.Position = Position;
     }
 
+    // Destroy the obstacle
+    public void Destroy()
+    {
+        game.Obstacles.Remove(this);
+        sprite.Dispose();
+        Destroyed = true;
+    }
 
-
-
+    
 
 
 
@@ -52,13 +62,12 @@ class Obstacle
     public void Update()
     {
         Fall();
-
-        //TODO: Destroy the obstacle when it goes offscreen
     }
 
     // Draw the obstacle
     public void Render()
     {
+        if (Destroyed == true) return;
         game.Window.Draw(sprite);
     }
 
