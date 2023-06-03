@@ -5,9 +5,10 @@ using SFML.Window;
 class Obstacle
 {
 	public bool Destroyed { get; private set; }
+	public Vector2f Position { get; private set; }
+	public float Width { get; private set; }
 	private Game game;
 	private float speed;
-	private Vector2f Position;
 	private Sprite sprite;
 
 	// Create a new obstacle
@@ -25,9 +26,10 @@ class Obstacle
 		// Get a random texture for the sprite
 		string[] textures = new string[] { "obstacle1", "obstacle2", "obstacle3" };
 		Texture texture = new Texture("./assets/img/" + textures[random.Next(textures.Length)] + ".png");
-		
+
 		// Make the obstacle sprite
 		this.sprite = new Sprite(texture);
+		this.Width = sprite.Texture.Size.X;
 	}
 
 

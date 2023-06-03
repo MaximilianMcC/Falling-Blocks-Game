@@ -22,7 +22,7 @@ class Game
 		Clock deltaTimeClock = new Clock();
 
 
-		// 60% down the screen
+		// 60% down the screen I think idk
 		float groundPosition = (Window.Size.Y * 60) / 100;
 
 
