@@ -11,7 +11,7 @@ class Player
 	private bool dead;
 
 	// New player constructor
-	public Player(Game game, float groundPosition)
+	public Player(Game game)
 	{
 		this.game = game;
 		this.speed = 500;
@@ -20,7 +20,7 @@ class Player
 		this.sprite = new Sprite(new Texture("./assets/img/player.png"));
 
 		// Spawn the player in the centre of the screen
-		this.position = new Vector2f(((game.Window.Size.X - sprite.Texture.Size.X) / 2), groundPosition);
+		this.position = new Vector2f(((game.Window.Size.X - sprite.Texture.Size.X) / 2), (game.Window.Size.Y - sprite.Texture.Size.Y));
 	}
 
 	// Update the player movement
@@ -52,7 +52,7 @@ class Player
 			Obstacle obstacle = game.Obstacles[i];
 
 			// Check for if the obstacle is in the correct y position
-			if (obstacle.Position.Y < position.Y) continue;
+			if ((obstacle.Position.Y + obstacle.Height) < position.Y) continue;
 
 			// Check for if the obstacle is at the correct x position
 			if ((position.X <= (obstacle.Position.X + obstacle.Width)) && (obstacle.Position.X <= (position.X + sprite.Texture.Size.X)))

@@ -7,6 +7,7 @@ class Obstacle
 	public bool Destroyed { get; private set; }
 	public Vector2f Position { get; private set; }
 	public float Width { get; private set; }
+	public float Height { get; private set; }
 	private Game game;
 	private float speed;
 	private Sprite sprite;
@@ -30,6 +31,7 @@ class Obstacle
 		// Make the obstacle sprite
 		this.sprite = new Sprite(texture);
 		this.Width = sprite.Texture.Size.X;
+		this.Height = sprite.Texture.Size.Y;
 	}
 
 
