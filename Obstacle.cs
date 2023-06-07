@@ -18,12 +18,6 @@ class Obstacle
 		this.game = game;
 		Random random = new Random();
 
-		// Get a random speed, and position
-		this.speed = random.NextInt64(100, 200);
-		float x = random.NextInt64(0, game.Window.Size.X);
-		this.Position = new Vector2f(x, -100);
-
-
 		// Get a random texture for the sprite
 		string[] textures = new string[] { "obstacle1", "obstacle2", "obstacle3" };
 		Texture texture = new Texture("./assets/img/" + textures[random.Next(textures.Length)] + ".png");
@@ -32,6 +26,11 @@ class Obstacle
 		this.sprite = new Sprite(texture);
 		this.Width = sprite.Texture.Size.X;
 		this.Height = sprite.Texture.Size.Y;
+
+		// Get a random speed, and position
+		this.speed = random.NextInt64(150, 250);
+		float x = random.NextInt64(sprite.Texture.Size.X, (game.Window.Size.X - sprite.Texture.Size.X));
+		this.Position = new Vector2f(x, -100);
 	}
 
 
