@@ -6,6 +6,7 @@ class Player
 {
 	public bool Dead;
 	private Game game;
+	private Vector2f spawnPoint;
 	private Vector2f position;
 	private Sprite sprite;
 	private float speed;
@@ -20,7 +21,8 @@ class Player
 		this.sprite = new Sprite(new Texture("./assets/img/player.png"));
 
 		// Spawn the player in the centre of the screen
-		this.position = new Vector2f(((game.Window.Size.X - sprite.Texture.Size.X) / 2), (game.Window.Size.Y - sprite.Texture.Size.Y));
+		this.spawnPoint = new Vector2f(((game.Window.Size.X - sprite.Texture.Size.X) / 2), (game.Window.Size.Y - sprite.Texture.Size.Y));
+		this.position = spawnPoint;
 	}
 
 	// Update the player movement
@@ -61,6 +63,13 @@ class Player
 				Dead = true;
 			}
 		}
+	}
+
+	// Respawn the player
+	public void Respawn()
+	{
+		Dead = false;
+		position = spawnPoint;
 	}
 
 

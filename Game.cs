@@ -59,6 +59,17 @@ class Game
 					Obstacles[i].Update();
 				}
 			}
+			else
+			{
+				// Check for if they press space to retry
+				if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+				{
+					// Reset everything
+					player.Respawn();
+					Score = 0;
+					Obstacles = new List<Obstacle>();
+				}
+			}
 
 
 
@@ -90,9 +101,17 @@ class Game
 				scoreText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y / 2));
 				scoreText.FillColor = Color.Black;
 
+				// Create the retry text
+				// TODO: Make this flash
+				Text retryText = new Text($"PRESS 'space' TO RETRY", font);
+				retryText.Origin = new Vector2f((retryText.GetGlobalBounds().Width / 2), (retryText.GetGlobalBounds().Height / 2));
+				retryText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y - retryText.GetGlobalBounds().Height - 10));
+				retryText.FillColor = Color.Black;
+
 				// Render the text
 				Window.Draw(gameOverText);
 				Window.Draw(scoreText);
+				Window.Draw(retryText);
 			}
 			else Window.Draw(new Text($"SCORE: {Score}", font));
 
