@@ -7,7 +7,7 @@ class Game
 	public RenderWindow Window { get; private set; }
 	public float DeltaTime { get; private set; }
 	public List<Obstacle> Obstacles = new List<Obstacle>();
-
+	public int Score { get; set; }
 
 	public void Run()
 	{
@@ -16,6 +16,8 @@ class Game
 		Window.SetFramerateLimit(60);
 		Window.Closed += (sender, e) => Window.Close();
 
+		// Fonts and text
+		Font font = new Font("./assets/fonts/EndlessBossBattleRegular.ttf");
 
 		// Create clocks
 		Clock gameClock = new Clock();
@@ -34,26 +36,30 @@ class Game
 			// Calculate delta time
 			DeltaTime = deltaTimeClock.Restart().AsSeconds();
 
-			// Update the player
-			player.Update();
-
-			// Spawn in a new obstacle every 2.5 seconds
-			float spawnDelay = 2.5f;
-			if (gameClock.ElapsedTime.AsSeconds() >= spawnDelay)
+			// Check for if the player has died or not
+			if (player.Dead == false)
 			{
-				// Create a new obstacle
-				Obstacle obstacle = new Obstacle(this);
-				Obstacles.Add(obstacle);
+				// Update the player
+				player.Update();
 
-				gameClock.Restart();
+				// Spawn in a new obstacle every 2.5 seconds
+				float spawnDelay = 1f;
+				if (gameClock.ElapsedTime.AsSeconds() >= spawnDelay)
+				{
+					// Create a new obstacle
+					Obstacle obstacle = new Obstacle(this);
+					Obstacles.Add(obstacle);
+
+					gameClock.Restart();
+				}
+
+				// Update all of the obstacles
+				for (int i = 0; i < Obstacles.Count; i++)
+				{
+					Obstacles[i].Update();
+				}
 			}
 
-
-			// Update all of the obstacles
-			for (int i = 0; i < Obstacles.Count; i++)
-			{
-				Obstacles[i].Update();
-			}
 
 
 			// Clear the Window
@@ -67,6 +73,28 @@ class Game
 			{
 				Obstacles[i].Render();
 			}
+
+			// Update the text
+			if (player.Dead)
+			{
+				// Create the game over text
+				//TODO: Don't do this every frame
+				Text gameOverText = new Text("GAME OVER", font, 55);
+				gameOverText.Origin = new Vector2f((gameOverText.GetGlobalBounds().Width / 2), (gameOverText.GetGlobalBounds().Height / 2));
+				gameOverText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y / 2) - 60);
+				gameOverText.FillColor = Color.Black;
+
+				// Create the score text
+				Text scoreText = new Text($"SCORE: {Score}", font);
+				scoreText.Origin = new Vector2f((scoreText.GetGlobalBounds().Width / 2), (scoreText.GetGlobalBounds().Height / 2));
+				scoreText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y / 2));
+				scoreText.FillColor = Color.Black;
+
+				// Render the text
+				Window.Draw(gameOverText);
+				Window.Draw(scoreText);
+			}
+			else Window.Draw(new Text($"SCORE: {Score}", font));
 
 
 			// Display the contents of the Window

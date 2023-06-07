@@ -42,8 +42,13 @@ class Obstacle
 		Vector2f movement = new Vector2f(0, speed * game.DeltaTime);
 		Vector2f newPosition = Position + movement;
 
-		// Check for if the obstacle is off the screen, then destroy it
-		if (Position.Y > game.Window.Size.Y) Destroy();
+		// Check for if the obstacle is off the screen
+		if (Position.Y > game.Window.Size.Y)
+		{
+			// destroy it and increase the players score
+			Destroy();
+			game.Score++;
+		}
 
 		// Move the player
 		Position = newPosition;

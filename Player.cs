@@ -4,11 +4,11 @@ using SFML.Window;
 
 class Player
 {
+	public bool Dead;
 	private Game game;
 	private Vector2f position;
 	private Sprite sprite;
 	private float speed;
-	private bool dead;
 
 	// New player constructor
 	public Player(Game game)
@@ -58,15 +58,9 @@ class Player
 			if ((position.X <= (obstacle.Position.X + obstacle.Width)) && (obstacle.Position.X <= (position.X + sprite.Texture.Size.X)))
 			{
 				// Kill the player
-				Die();
+				Dead = true;
 			}
 		}
-	}
-
-	private void Die()
-	{
-		sprite.Dispose();
-		dead = true;
 	}
 
 
@@ -74,7 +68,7 @@ class Player
 	// Update the player
 	public void Update()
 	{
-		if (dead) return;
+		if (Dead) return;
 
 		Move();
 		ObstacleCollision();
@@ -83,8 +77,6 @@ class Player
 	// Draw the player
 	public void Render()
 	{
-		if (dead) return;
-
 		game.Window.Draw(sprite);
 	}
 }
