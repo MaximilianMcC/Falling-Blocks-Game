@@ -27,6 +27,13 @@ class Game
 		// Make the player
 		Player player = new Player(this);
 
+		// Obstacle speed
+		//? Every 5 levels, the speed will increase by 20.
+		int obstacleSpeedStart = 100;
+		int obstacleSpeed = obstacleSpeedStart;
+		int obstacleSpeedMultiplier = 50;
+		int scoreSpeedIncrease = 5;
+
 
 		while (Window.IsOpen)
 		{
@@ -46,8 +53,14 @@ class Game
 				float spawnDelay = 1f;
 				if (gameClock.ElapsedTime.AsSeconds() >= spawnDelay)
 				{
+					// Make the speed increase as the game goes on
+					if (Score % scoreSpeedIncrease == 0)
+					{
+						obstacleSpeed += obstacleSpeedMultiplier;
+					}
+
 					// Create a new obstacle
-					Obstacle obstacle = new Obstacle(this);
+					Obstacle obstacle = new Obstacle(this, obstacleSpeed);
 					Obstacles.Add(obstacle);
 
 					gameClock.Restart();
@@ -68,6 +81,7 @@ class Game
 					player.Respawn();
 					Score = 0;
 					Obstacles = new List<Obstacle>();
+					obstacleSpeed = obstacleSpeedStart;
 				}
 			}
 
@@ -89,7 +103,7 @@ class Game
 			if (player.Dead)
 			{
 				// Create the game over text
-				//TODO: Don't do this every frame
+				//TODO: Don't make a new text object every frame
 				Text gameOverText = new Text("GAME OVER", font, 55);
 				gameOverText.Origin = new Vector2f((gameOverText.GetGlobalBounds().Width / 2), (gameOverText.GetGlobalBounds().Height / 2));
 				gameOverText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y / 2) - 60);
@@ -102,7 +116,7 @@ class Game
 				scoreText.FillColor = Color.Black;
 
 				// Create the retry text
-				// TODO: Make this flash
+				// TODO: Make this flash maybe
 				Text retryText = new Text($"PRESS 'space' TO RETRY", font);
 				retryText.Origin = new Vector2f((retryText.GetGlobalBounds().Width / 2), (retryText.GetGlobalBounds().Height / 2));
 				retryText.Position = new Vector2f((Window.Size.X / 2), (Window.Size.Y - retryText.GetGlobalBounds().Height - 10));

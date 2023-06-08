@@ -13,7 +13,7 @@ class Obstacle
 	private Sprite sprite;
 
 	// Create a new obstacle
-	public Obstacle(Game game)
+	public Obstacle(Game game, int speed)
 	{
 		this.game = game;
 		Random random = new Random();
@@ -28,7 +28,7 @@ class Obstacle
 		this.Height = sprite.Texture.Size.Y;
 
 		// Get a random speed, and position
-		this.speed = random.NextInt64(150, 250);
+		this.speed = random.NextInt64((speed - 50), (speed + 50));
 		float x = random.NextInt64(sprite.Texture.Size.X, (game.Window.Size.X - sprite.Texture.Size.X));
 		this.Position = new Vector2f(x, -100);
 	}
