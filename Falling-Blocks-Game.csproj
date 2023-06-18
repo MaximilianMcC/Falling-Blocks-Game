@@ -6,6 +6,7 @@
 		<RootNamespace>falling_blocks_game</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
+		<OutputType>WinExe</OutputType>
 	</PropertyGroup>
 
 	<ItemGroup>
