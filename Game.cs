@@ -14,6 +14,7 @@ class Game
 		// Create the SFML window
 		Window = new RenderWindow(new VideoMode(800, 600), "Falling Obstacles");
 		Window.SetFramerateLimit(60);
+		Window.SetIcon(128, 128, new Image("./assets/img/icon.png").Pixels);
 		Window.Closed += (sender, e) => Window.Close();
 
 		// Fonts and text
